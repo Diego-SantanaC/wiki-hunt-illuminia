@@ -22,19 +22,19 @@
             --gold: #fbbf24;
             --task-color: #a78bfa;
         }
-		/* Define a animação de entrada */
+		
 @keyframes fadeInPage {
     from {
         opacity: 0;
-        transform: translateY(10px); /* Começa um pouco abaixo */
+        transform: translateY(10px); 
     }
     to {
         opacity: 1;
-        transform: translateY(0); /* Termina na posição original */
+        transform: translateY(0); 
     }
 }
 
-/* Aplica a animação ao corpo da página */
+
 body {
     animation: fadeInPage 0.8s ease-out forwards;
 }
@@ -48,7 +48,7 @@ body {
             display: flex; flex-direction: column; align-items: center;
         }
 
-        /* ESTRUTURA DO HEADER ALTERADA - CORES PRESERVADAS */
+        
 .header-section { 
             width: 100%; 
             max-width: 1250px; 
@@ -113,7 +113,7 @@ h1 {
 		.info-legend {
 			width: 100%;
 			max-width: 1250px;
-			margin: 0 auto; /* O 'auto' garante que ela centralize igual à grid */
+			margin: 0 auto; 
 			padding: 12px 20px;
 			background: rgb(255 190 0 / 13%);
 			border: 1px dashed rgb(248 201 56 / 30%);
@@ -122,7 +122,7 @@ h1 {
 			align-items: center;
 			gap: 15px;
     
-			/* SOLUÇÃO DO PROBLEMA */
+			
 			box-sizing: border-box; 
 		}
 
@@ -144,7 +144,7 @@ h1 {
 			font-size: 12px;
 			color: var(--text-dim);
 			line-height: 1.5;
-			text-align: left; /* Garante que o texto comece à esquerda */
+			text-align: left; 
 		}
 
 		.info-text b {
