@@ -158,12 +158,15 @@ h1 {
         .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; width: 100%; max-width: 1250px; margin-top: 15px; }
         
         .card {
-            background: rgba(30, 41, 59, 0.6);
-            border: 1px solid var(--border-glass); border-radius: 16px;
-            padding: 14px; display: flex; flex-direction: column; gap: 10px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-			
-        }
+    display: flex;
+    flex-direction: column; 
+    background: rgba(30, 41, 59, 0.6);
+    border: 1px solid var(--border-glass);
+    border-radius: 16px;
+    padding: 14px;
+    gap: 10px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
 			
 		
         .card:hover { transform: translateY(-5px); border-color: var(--accent-blue); box-shadow: 0 10px 30px rgba(0, 212, 255, 0.15); background: rgba(30, 41, 59, 0.9); }
@@ -188,22 +191,59 @@ h1 {
 
         .stage-item { text-align: center; }
         .stage-val { font-size: 11px; font-weight: 700; color: #fff; }
-        .label-sm { font-size: 8px; text-transform: uppercase; color: var(--text-dim); display: block; margin-bottom: 2px; }
+        .label-sm { font-size: 8px; text-transform: uppercase; color: var(--text-dim); display: block;  }
         .val-ideal { color: var(--gold); font-size: 13px; }
 
-        .element-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+        .element-grid {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 8px;
+			flex-grow: 1; 
+		}
         .right-column { display: flex; flex-direction: column; gap: 8px; }
         
         .info-box { background: rgba(2, 6, 23, 0.5); border-radius: 10px; padding: 10px; border: 1px solid var(--border-glass); }
         .info-box.full-height { min-height: none; }
         .info-box.mini { flex: 1; display: flex; flex-direction: column; justify-content: flex-start; }
+		.info-box.full-height, 
+			.right-column .info-box:first-child {
+			flex-grow: 1;
+			display: flex;
+			flex-direction: column;
+	}
+		.label-with-icon {
+			display: flex;
+			align-items: center;
+			gap: 5px;
+			font-weight: 800;
+			font-size: 8px;
+			text-transform: uppercase;
+		}
 
         .element-line { display: flex; justify-content: space-between; font-size: 10px; margin-bottom: 2px; padding: 3px 6px; border-radius: 6px; }
         .star-highlight { background: linear-gradient(90deg, rgba(53, 157, 98, 0.35), transparent); font-weight: 700; }
         .match-highlight { background: linear-gradient(90deg, rgba(56, 189, 248, 0.35), transparent) !important; font-weight: 800; }
+		
+.info-box.mini.exp-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 32px; 
+}
+
+.exp-footer {
+    display: flex;
+    align-items: center;    
+    justify-content: center; 
+    flex-grow: 1;          
+    
+    border-top: 1px solid var(--border-glass);
+    font-size: 12px;
+    font-weight: 800;
+    margin-top: 5px;
+}
 
         .task-content { font-size: 11px; font-weight: 700; color: #fff; margin-top: 4px; padding-left: 2px; }
-        .task-id { color: var(--accent-blue); margin-right: 5px; }
+        .task-id { color: var(--accent-blue);  }
 
         .score-badge { font-size: 9px; border: 1px solid #38bdf8;; color: #38bdf8; padding: 2px 6px; border-radius: 4px; font-weight: 900; margin-left: auto; }
 
@@ -242,8 +282,8 @@ h1 {
     <div class="info-legend">
         <div class="info-icon">i</div>
         <div class="info-text">
-            <b>Entenda os valores:</b> Os elementos exibidos representam a <b>soma total</b> das fraquezas da hunt. Como a maioria das hunts possui 2 ou 3 criaturas, valores acima de 100% indicam a vulnerabilidade combinada. 
-            <p><i>Ex: Se duas criaturas têm 105% de fraqueza a Fire, o total exibido será 210%.</i> O seu dano não vai ser de 210%, esse valor e só uma forma de calcular a soma dos elementos entre as criaturas.</p>
+            As porcentagens separadas por barra (ex: 105% / 105%) mostram a fraqueza exata de cada criatura da hunt ( CRIATURA 1 / CRIATURA 2 ). 
+            <p>Ao usar os <b>filtros</b>, o valor no topo do card representa a relevância total dos elementos escolhidos para aquela hunt. Quanto maior o Score, mais vulneráveis as criaturas são ao seu set de elementos escolhidos.</p>
         </div>
     </div>
 
@@ -252,26 +292,26 @@ h1 {
 
     <script>
         const hunts = [
-            { n: "Arcane Wraith / Thunder Specter", tid: 55, min: 1500, ideal: 2000, over: 2750, sprites: ["Sprites/Arcane Wraith.gif", "Sprites/Thunder Specter.gif"], c: [{p:105,ea:100,f:100,d:75,en:75,h:100,i:100},{p:105,ea:105,f:100,d:85,en:80,h:105,i:105}]},
-            { n: "Armored Colossus / Cinder Warlord", tid: 56, min: 1500, ideal: 2000, over: 2750, sprites: ["Sprites/Armored Colossus.gif", "Sprites/Cinder Warlord.gif"], c: [{p:75,ea:105,f:105,d:105,en:105,h:105,i:105},{p:85,ea:110,f:80,d:100,en:110,h:110,i:100}]},
-            { n: "Forest Guardian / Rotting Watcher", tid: 57, min: 2000, ideal: 2500, over: 3250, sprites: ["Sprites/Forest Guardian.gif", "Sprites/Rotting Watcher.gif"], c: [{p:105,ea:75,f:110,d:100,en:100,h:100,i:100},{p:110,ea:75,f:110,d:105,en:105,h:95,i:105}]},
-            { n: "Holy Crusader / Blessed Sentinel", tid: 58, min: 2000, ideal: 2500, over: 3250, sprites: ["Sprites/Holy Crusader.gif", "Sprites/Blessed Sentinel.gif"], c: [{p:75,ea:105,f:105,d:105,en:105,h:65,i:105},{p:80,ea:110,f:105,d:100,en:110,h:60,i:100}]},
-            { n: "Iceborn Sentinel / Glacier Warden", tid: 59, min: 2500, ideal: 3000, over: 3750, sprites: ["Sprites/Iceborn Sentinel.gif", "Sprites/Glacier Warden.gif"], c: [{p:100,ea:105,f:110,d:95,en:85,h:105,i:75},{p:95,ea:110,f:105,d:95,en:90,h:105,i:75}]},
-            { n: "Ashclaw Demon / Flame Reaper", tid: 60, min: 2500, ideal: 3000, over: 3750, sprites: ["Sprites/Ashclaw Demon.gif", "Sprites/Flame Reaper.gif"], c: [{p:80,ea:100,f:60,d:105,en:110,h:105,i:115},{p:90,ea:100,f:65,d:110,en:105,h:110,i:110}]},
-            { n: "Pulsebound Entity / Voltshade Specter", tid: 61, min: 3000, ideal: 3500, over: 4250, sprites: ["Sprites/Pulsebound Entity.gif", "Sprites/Voltshade Specter.gif"], c: [{p:115,ea:110,f:110,d:105,en:75,h:105,i:100},{p:100,ea:105,f:110,d:100,en:75,h:110,i:95}]},
-            { n: "Gloomwraith / Whisper of Death", tid: 62, min: 3000, ideal: 3500, over: 4250, sprites: ["Sprites/Gloomwraith.gif", "Sprites/Whisper of Death.gif"], c: [{p:85,ea:100,f:110,d:90,en:110,h:115,i:90},{p:90,ea:105,f:110,d:90,en:115,h:110,i:85}]},
-            { n: "Sanctified Specter / Radiant Sentinel", tid: 63, min: 3500, ideal: 4000, over: 4750, sprites: ["Sprites/Sanctified Specter.gif", "Sprites/Radiant Sentinel.gif"], c: [{p:105,ea:110,f:100,d:110,en:100,h:80,i:105},{p:110,ea:105,f:105,d:105,en:100,h:90,i:100}]},
-            { n: "Deepcore Hydra / Obsidian Devourer", tid: 64, min: 3500, ideal: 4000, over: 4750, sprites: ["Sprites/Hydra.gif", "Sprites/Obsidian.gif"], c: [{p:90,ea:100,f:115,d:100,en:100,h:110,i:100},{p:95,ea:90,f:110,d:105,en:105,h:110,i:105}]},
-            { n: "Spectral Archivist / Forbidden Tome Wraith", tid: 65, min: 4000, ideal: 4500, over: 5250, sprites: ["Sprites/Spectral Archivist.gif", "Sprites/Forbidden Tome Wraith.gif"], c: [{p:90,ea:100,f:110,d:110,en:105,h:90,i:90},{p:100,ea:85,f:115,d:110,en:110,h:90,i:85}]},
-            { n: "Scarab Sentinel / Scarapede", tid: 66, min: 4000, ideal: 4500, over: 5250, sprites: ["Sprites/Scarab Sentinel.gif", "Sprites/Scarapede.gif"], c: [{p:100,ea:95,f:110,d:105,en:100,h:100,i:95},{p:100,ea:95,f:110,d:105,en:100,h:100,i:95}]},
-            { n: "Burrowed Terror / Sand Devourer", tid: 67, min: 4500, ideal: 5000, over: 5750, sprites: ["Sprites/Burrowed Terror.gif", "Sprites/Sand Devourer.gif"], c: [{p:108,ea:95,f:75,d:85,en:100,h:110,i:105},{p:108,ea:95,f:75,d:85,en:100,h:110,i:105}]},
-            { n: "Ancient Berserker / Cursed High Priest / Tomb Guardian", tid: 68, min: 4500, ideal: 5000, over: 5750, sprites: ["Sprites/Ancient Berserker.gif", "Sprites/Cursed High.gif", "Sprites/Tomb Guardian.gif"], c: [{p:95,ea:90,f:95,d:110,en:100,h:105,i:110},{p:100,ea:85,f:90,d:100,en:105,h:100,i:105},{p:105,ea:85,f:95,d:95,en:100,h:100,i:105}]},
-            { n: "Ancient Mummy / Holy Cryptkeeper", tid: 69, min: 5000, ideal: 5500, over: 6250, sprites: ["Sprites/Ancient Mummy.gif", "Sprites/Holy Cryptkeeper.gif"], c: [{p:90,ea:85,f:85,d:90,en:110,h:85,i:105},{p:85,ea:85,f:105,d:90,en:110,h:90,i:110}]},
-            { n: "Inferno Goo / Hellflame Spawn", tid: 70, min: 5500, ideal: 6000, over: 6750, sprites: ["Sprites/Inferno Goo.gif", "Sprites/Hellflame.gif"], c: [{p:105,ea:100,f:80,d:90,en:105,h:110,i:105},{p:100,ea:95,f:85,d:90,en:105,h:105,i:110}]},
-            { n: "Ancient Ice Dragon / Frost Empress", tid: 71, min: 6000, ideal: 6500, over: 7250, sprites: ["Sprites/Ancient Ice Dragon.gif", "Sprites/Frost Empress.gif"], c: [{p:105,ea:110,f:110,d:100,en:95,h:90,i:75},{p:100,ea:105,f:110,d:100,en:95,h:105,i:75}]},
-            { n: "Energy Harbinger / Storm Phantom", tid: 72, min: 6500, ideal: 7000, over: 7750, sprites: ["Sprites/Energy Harbinger.gif", "Sprites/Storm Phantom.gif"], c: [{p:105,ea:110,f:110,d:100,en:75,h:100,i:105},{p:95,ea:110,f:105,d:100,en:75,h:105,i:100}]},
-            { n: "Galactic Dragon / Astral Surge", tid: 73, min: 7000, ideal: 7500, over: 8250, sprites: ["Sprites/Galactic Dragon.gif", "Sprites/Astral.gif"], c: [{p:85,ea:120,f:90,d:105,en:85,h:105,i:85},{p:90,ea:115,f:90,d:105,en:85,h:105,i:95}]},
-            { n: "Mega Dragon / Dragolisk / Wardragon", tid: 74, min: 7500, ideal: 8000, over: 8750, sprites: ["Sprites/Mega Dragon.gif", "Sprites/Dragolisk.gif", "Sprites/Wardragon.gif"], c: [{p:100,ea:110,f:100,d:100,en:110,h:110,i:100},{p:85,ea:110,f:100,d:110,en:100,h:115,i:105},{p:100,ea:110,f:100,d:100,en:105,h:105,i:110}]}
+            { n: "Arcane Wraith / Thunder Specter", tid: 55, e: "39.050", v: "50.000", min: 1500, ideal: 2000, over: 2750, sprites: ["Sprites/Arcane Wraith.gif", "Sprites/Thunder Specter.gif"], c: [{p:105,ea:100,f:100,d:75,en:75,h:100,i:100},{p:105,ea:105,f:100,d:85,en:80,h:105,i:105}]},
+            { n: "Armored Colossus / Cinder Warlord", tid: 56, e: "39.050", v: "50.000", min: 1500, ideal: 2000, over: 2750, sprites: ["Sprites/Armored Colossus.gif", "Sprites/Cinder Warlord.gif"], c: [{p:75,ea:105,f:105,d:105,en:105,h:105,i:105},{p:85,ea:110,f:80,d:100,en:110,h:110,i:100}]},
+            { n: "Forest Guardian / Rotting Watcher", tid: 57, e: "53.350", v: "60.000", min: 2000, ideal: 2500, over: 3250, sprites: ["Sprites/Forest Guardian.gif", "Sprites/Rotting Watcher.gif"], c: [{p:105,ea:75,f:110,d:100,en:100,h:100,i:100},{p:110,ea:75,f:110,d:105,en:105,h:95,i:105}]},
+            { n: "Holy Crusader / Blessed Sentinel", tid: 58, e: "53.350", v: "60.000", min: 2000, ideal: 2500, over: 3250, sprites: ["Sprites/Holy Crusader.gif", "Sprites/Blessed Sentinel.gif"], c: [{p:75,ea:105,f:105,d:105,en:105,h:65,i:105},{p:80,ea:110,f:105,d:100,en:110,h:60,i:100}]},
+            { n: "Iceborn Sentinel / Glacier Warden", tid: 60, e: "50.580", v: "65.000", min: 2500, ideal: 3000, over: 3750, sprites: ["Sprites/Iceborn Sentinel.gif", "Sprites/Glacier Warden.gif"], c: [{p:100,ea:105,f:110,d:95,en:85,h:105,i:75},{p:95,ea:110,f:105,d:95,en:90,h:105,i:75}]},
+            { n: "Ashclaw Demon / Flame Reaper", tid: 59, e: "49.600", v: "65.500", min: 2500, ideal: 3000, over: 3750, sprites: ["Sprites/Ashclaw Demon.gif", "Sprites/Flame Reaper.gif"], c: [{p:80,ea:100,f:60,d:105,en:110,h:105,i:115},{p:90,ea:100,f:65,d:110,en:105,h:110,i:110}]},
+            { n: "Pulsebound Entity / Voltshade Specter", tid: 61, e: "72.725", v: "75.000", min: 3000, ideal: 3500, over: 4250, sprites: ["Sprites/Pulsebound Entity.gif", "Sprites/Voltshade Specter.gif"], c: [{p:115,ea:110,f:110,d:105,en:75,h:105,i:100},{p:100,ea:105,f:110,d:100,en:75,h:110,i:95}]},
+            { n: "Gloomwraith / Whisper of Death", tid: 62, e: "75.820", v: "75.000", min: 3000, ideal: 3500, over: 4250, sprites: ["Sprites/Gloomwraith.gif", "Sprites/Whisper of Death.gif"], c: [{p:85,ea:100,f:110,d:90,en:110,h:115,i:90},{p:90,ea:105,f:110,d:90,en:115,h:110,i:85}]},
+            { n: "Sanctified Specter / Radiant Sentinel", tid: 63, e: "88.800", v: "85.000", min: 3500, ideal: 4000, over: 4750, sprites: ["Sprites/Sanctified Specter.gif", "Sprites/Radiant Sentinel.gif"], c: [{p:105,ea:110,f:100,d:110,en:100,h:80,i:105},{p:110,ea:105,f:105,d:105,en:100,h:90,i:100}]},
+            { n: "Deepcore Hydra / Obsidian Devourer", tid: 64, e: "99.800", v: "85.000", min: 3500, ideal: 4000, over: 4750, sprites: ["Sprites/Hydra.gif", "Sprites/Obsidian.gif"], c: [{p:90,ea:100,f:115,d:100,en:100,h:110,i:100},{p:95,ea:90,f:110,d:105,en:105,h:110,i:105}]},
+            { n: "Spectral Archivist / Forbidden Tome Wraith", tid: 65, e: "118.820", tn:"Forbidden Tome Wraith", v: "95.000", min: 4000, ideal: 4500, over: 5250, sprites: ["Sprites/Spectral Archivist.gif", "Sprites/Forbidden Tome Wraith.gif"], c: [{p:90,ea:100,f:110,d:110,en:105,h:90,i:90},{p:100,ea:85,f:115,d:110,en:110,h:90,i:85}]},
+            { n: "Scarab Sentinel / Scarapede", tid: 66, e: "108.400", v: "95.000", min: 4000, ideal: 4500, over: 5250, sprites: ["Sprites/Scarab Sentinel.gif", "Sprites/Scarapede.gif"], c: [{p:100,ea:95,f:110,d:105,en:100,h:100,i:95},{p:100,ea:95,f:110,d:105,en:100,h:100,i:95}]},
+            { n: "Burrowed Terror / Sand Devourer", tid: 67, e: "122.660", v: "110.000", min: 4500, ideal: 5000, over: 5750, sprites: ["Sprites/Burrowed Terror.gif", "Sprites/Sand Devourer.gif"], c: [{p:108,ea:95,f:75,d:85,en:100,h:110,i:105},{p:108,ea:95,f:75,d:85,en:100,h:110,i:105}]},
+            { n: "Ancient Berserker / Cursed High Priest / Tomb Guardian", tid: 68, e: "132.050", tn:"Tomb Guardian", v: "110.000", min: 4500, ideal: 5000, over: 5750, sprites: ["Sprites/Ancient Berserker.gif", "Sprites/Cursed High.gif", "Sprites/Tomb Guardian.gif"], c: [{p:95,ea:90,f:95,d:110,en:100,h:105,i:110},{p:100,ea:85,f:90,d:100,en:105,h:100,i:105},{p:105,ea:85,f:95,d:95,en:100,h:100,i:105}]},
+            { n: "Ancient Mummy / Holy Cryptkeeper", tid: 69, e: "155.600", v: "120.000", min: 5000, ideal: 5500, over: 6250, sprites: ["Sprites/Ancient Mummy.gif", "Sprites/Holy Cryptkeeper.gif"], c: [{p:90,ea:85,f:85,d:90,en:110,h:85,i:105},{p:85,ea:85,f:105,d:90,en:110,h:90,i:110}]},
+            { n: "Inferno Goo / Hellflame Spawn", tid: 70, e: "203.000", v: "145.000", min: 5500, ideal: 6000, over: 6750, sprites: ["Sprites/Inferno Goo.gif", "Sprites/Hellflame.gif"], c: [{p:105,ea:100,f:80,d:90,en:105,h:110,i:105},{p:100,ea:95,f:85,d:90,en:105,h:105,i:110}]},
+            { n: "Ancient Ice Dragon / Frost Empress", tid: 71, e: "230.000", v: "175.000", min: 6000, ideal: 6500, over: 7250, sprites: ["Sprites/Ancient Ice Dragon.gif", "Sprites/Frost Empress.gif"], c: [{p:105,ea:110,f:110,d:100,en:95,h:90,i:75},{p:100,ea:105,f:110,d:100,en:95,h:105,i:75}]},
+            { n: "Energy Harbinger / Storm Phantom", tid: 72, e: "312.000", v: "210.000", min: 6500, ideal: 7000, over: 7750, sprites: ["Sprites/Energy Harbinger.gif", "Sprites/Storm Phantom.gif"], c: [{p:105,ea:110,f:110,d:100,en:75,h:100,i:105},{p:95,ea:110,f:105,d:100,en:75,h:105,i:100}]},
+            { n: "Galactic Dragon / Astral Surge", tid: 73, e: "410.000", v: "240.000", min: 7000, ideal: 7500, over: 8250, sprites: ["Sprites/Galactic Dragon.gif", "Sprites/Astral.gif"], c: [{p:85,ea:120,f:90,d:105,en:85,h:105,i:85},{p:90,ea:115,f:90,d:105,en:85,h:105,i:95}]},
+            { n: "Mega Dragon / Dragolisk / Wardragon", tid: 74, e: "420.000", v: "290.000", min: 7500, ideal: 8000, over: 8750, sprites: ["Sprites/Mega Dragon.gif", "Sprites/Dragolisk.gif", "Sprites/Wardragon.gif"], c: [{p:100,ea:110,f:100,d:100,en:110,h:110,i:100},{p:85,ea:110,f:100,d:110,en:100,h:115,i:105},{p:100,ea:110,f:100,d:100,en:105,h:105,i:110}]}
         ];
 
         function filter() {
@@ -304,15 +344,25 @@ h1 {
                 const maxVal = sorted[0][1];
                 let vulHTML = "", resHTML = "";
                 
-                sorted.forEach(([el, val]) => {
-                    const isMax = val === maxVal;
-                    const isSel = selected.includes(el);
-                    const line = `<div class="element-line ${isSel ? 'match-highlight' : ''} ${isMax ? 'star-highlight' : ''}">
-                                    <span style="${isMax ? 'color:var(--gold)' : ''}">${isMax ? '⭐ ' : ''}${el}</span>
-                                    <span>${val}%</span>
-                                  </div>`;
-                    val >= (h.c.length * 100) ? vulHTML += line : resHTML += line;
-                });
+sorted.forEach(([el, val]) => {
+    const isMax = val === maxVal;
+    const isSel = selected.includes(el);
+
+    // Mapeamento para buscar o valor individual de cada criatura
+    const keyMap = { "Physical": "p", "Earth": "ea", "Fire": "f", "Energy": "en", "Ice": "i", "Holy": "h", "Death": "d" };
+    const key = keyMap[el];
+    
+    // Gera a string "105% / 105%"
+    const individualValues = h.c.map(creature => `${creature[key]}%`).join(' / ');
+
+    // Aplicamos o style de cor dourada em ambos os spans se for o elemento máximo (isMax)
+    const line = `<div class="element-line ${isSel ? 'match-highlight' : ''} ${isMax ? 'star-highlight' : ''}">
+                    <span style="${isMax ? 'color:var(--gold)' : ''}">${isMax ? '⭐ ' : ''}${el}</span>
+                    <span style="${isMax ? 'color:var(--gold)' : ''}">${individualValues}</span>
+                  </div>`;
+                  
+    val >= (h.c.length * 100) ? vulHTML += line : resHTML += line;
+});
 
                 const spritesHTML = h.sprites.map(url => `
                     <div class="sprite-box">
@@ -326,6 +376,7 @@ h1 {
                         <div class="creature-name">${h.n}</div>
                         ${selected.length > 0 ? `<div class="score-badge">${h.currentScore}%</div>` : ''}
                     </div>
+                    
                     <div class="info-header-row">
                         <div class="sprite-container">${spritesHTML}</div>
                         <div class="stage-grid">
@@ -334,16 +385,39 @@ h1 {
                             <div class="stage-item"><span class="label-sm">Over</span><span class="stage-val">${h.over}</span></div>
                         </div>
                     </div>
+
                     <div class="element-grid">
-                        <div class="info-box full-height"><span class="label-sm" style="color:var(--weak)">Vulnerabilidade (Soma)</span>${vulHTML}</div>
+                        <div class="info-box full-height"><span class="label-sm" style="color: #41c571; font-weight: 800; letter-spacing: 0.03em;">Vulnerabilidade</span>${vulHTML}</div>
                         <div class="right-column">
-                            <div class="info-box mini"><span class="label-sm" style="color:var(--res)">Resistência</span>${resHTML}</div>
+                            <div class="info-box mini"><span class="label-sm" style="color:var(--res); font-weight: 800; letter-spacing: 0.03em;">Resistência</span>${resHTML}</div>
                             <div class="info-box mini">
-                                <span class="label-sm" style="color:var(--task-color)">TASK SYSTEM</span>
-                                <div class="task-content"><span class="task-id">${h.tid}</span> - ${h.n.split(' / ')[0]}</div>
+                                <span class="label-sm" style="color:var(--task-color); font-weight: 800; letter-spacing: 0.03em;">TASK SYSTEM</span>
+                                <div class="task-content">
+									<span class="task-id">${h.tid}</span> - ${h.tn || h.n.split(' / ')[0]}
+								</div>
                             </div>
                         </div>
                     </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+			<div class="info-box mini exp-container">
+				<span class="label-sm" style="color:#c9b424; font-weight:800; display: flex; align-items: center; gap: 5px; letter-spacing: 0.03em;">
+					<img src="Xpbestiary.png" style=""> EXPERIÊNCIA
+				</span>
+				<div class="exp-footer">
+					<span style="color: #ffffff; margin-top: 5px;">${h.e || '---'}</span>
+				</div>
+			</div>
+    
+			<div class="info-box mini exp-container" style="">
+				<span class="label-sm" style="color:#fb7171; font-weight:800; display: flex; align-items: center; gap: 5px; letter-spacing: 0.03em;">
+					<img src="Hearthp.png" style=""> VIDA
+				</span>
+				<div class="exp-footer" style="">
+					<span style="color: #ffffff; margin-top: 5px;">${h.v || '---'}</span>
+				</div>
+			</div>
+		</div>
                 </div>`;
             }).join('');
         }
