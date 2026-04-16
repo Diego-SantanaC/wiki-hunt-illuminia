@@ -315,28 +315,47 @@ h1 {
         ];
 
         function filter() {
-            const query = document.getElementById('searchBar').value.toLowerCase();
-            const selected = Array.from(document.querySelectorAll('.el-chip input:checked')).map(i => i.value);
-            const grid = document.getElementById('mainGrid');
+			const query = document.getElementById('searchBar').value.toLowerCase();
+			const selected = Array.from(document.querySelectorAll('.el-chip input:checked')).map(i => i.value);
+			const grid = document.getElementById('mainGrid');
 
-            let results = hunts.map(h => {
-                let sum = { Physical:0, Earth:0, Fire:0, Energy:0, Ice:0, Holy:0, Death:0 };
-                h.c.forEach(creature => {
-                    sum.Physical += creature.p; sum.Earth += creature.ea; sum.Fire += creature.f;
-                    sum.Energy += creature.en; sum.Ice += creature.i; sum.Holy += creature.h;
-                    sum.Death += creature.d;
-                });
+    let results = hunts.map(h => {
+        let sum = { Physical:0, Earth:0, Fire:0, Energy:0, Ice:0, Holy:0, Death:0 };
+        h.c.forEach(creature => {
+            sum.Physical += creature.p; sum.Earth += creature.ea; sum.Fire += creature.f;
+            sum.Energy += creature.en; sum.Ice += creature.i; sum.Holy += creature.h;
+            sum.Death += creature.d;
+        });
 
-                const mapper = { "Physical": sum.Physical, "Earth": sum.Earth, "Fire": sum.Fire, "Energy": sum.Energy, "Ice": sum.Ice, "Holy": sum.Holy, "Death": sum.Death };
-                let score = selected.reduce((acc, el) => acc + (mapper[el] || 0), 0);
-                let isMatch = h.n.toLowerCase().includes(query);
-                
-                if (selected.length > 0) isMatch = isMatch && selected.some(el => mapper[el] >= (h.c.length * 100));
+        const mapper = { "Physical": sum.Physical, "Earth": sum.Earth, "Fire": sum.Fire, "Energy": sum.Energy, "Ice": sum.Ice, "Holy": sum.Holy, "Death": sum.Death };
+        
+      
+        let scoreNormalizado = selected.length > 0 
+            ? (selected.reduce((acc, el) => acc + (mapper[el] || 0), 0) / h.c.length) 
+            : 0;
 
-                return { ...h, totals: mapper, currentScore: score, isMatch };
-            });
+       
+        const numXP = parseFloat(h.e?.replace(/\./g, '') || 0);
+        const numVida = parseFloat(h.v?.replace(/\./g, '') || 0);
 
-            if (selected.length > 0) results.sort((a, b) => b.currentScore - a.currentScore);
+        let isMatch = h.n.toLowerCase().includes(query);
+        if (selected.length > 0) isMatch = isMatch && selected.some(el => mapper[el] >= (h.c.length * 100));
+
+        return { ...h, totals: mapper, currentScore: scoreNormalizado, numXP, numVida, isMatch };
+    });
+
+    
+    if (selected.length > 0) {
+        results.sort((a, b) => {
+           
+            if (b.currentScore !== a.currentScore) return b.currentScore - a.currentScore;
+                        
+            if (b.numXP !== a.numXP) return b.numXP - a.numXP;
+                        
+            return a.numVida - b.numVida;
+        });
+    }
+    
 
             grid.innerHTML = results.map(h => {
                 if (!h.isMatch) return '';
@@ -348,14 +367,14 @@ sorted.forEach(([el, val]) => {
     const isMax = val === maxVal;
     const isSel = selected.includes(el);
 
-    // Mapeamento para buscar o valor individual de cada criatura
+   
     const keyMap = { "Physical": "p", "Earth": "ea", "Fire": "f", "Energy": "en", "Ice": "i", "Holy": "h", "Death": "d" };
     const key = keyMap[el];
     
-    // Gera a string "105% / 105%"
+    
     const individualValues = h.c.map(creature => `${creature[key]}%`).join(' / ');
 
-    // Aplicamos o style de cor dourada em ambos os spans se for o elemento máximo (isMax)
+    
     const line = `<div class="element-line ${isSel ? 'match-highlight' : ''} ${isMax ? 'star-highlight' : ''}">
                     <span style="${isMax ? 'color:var(--gold)' : ''}">${isMax ? '⭐ ' : ''}${el}</span>
                     <span style="${isMax ? 'color:var(--gold)' : ''}">${individualValues}</span>
@@ -374,7 +393,7 @@ sorted.forEach(([el, val]) => {
                 <div class="card">
                     <div style="display:flex; align-items:center;">
                         <div class="creature-name">${h.n}</div>
-                        ${selected.length > 0 ? `<div class="score-badge">${h.currentScore}%</div>` : ''}
+                        	${selected.length > 0 ? `<div class="score-badge">${h.currentScore.toFixed(0)}% Score</div>` : ''}
                     </div>
                     
                     <div class="info-header-row">
