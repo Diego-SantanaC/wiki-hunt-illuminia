@@ -198,7 +198,7 @@ h1 {
             border: 1px solid var(--border-glass);
             border-radius: 16px;
             padding: 14px;
-            gap: 10px;
+            gap: 5px;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 			
@@ -278,6 +278,13 @@ h1 {
 
         .task-content { font-size: 11px; font-weight: 700; color: #fff; margin-top: 4px; padding-left: 2px; }
         .task-id { color: var(--accent-blue);  }
+		.def-icon {
+    width: 14px;      
+    height: 14px;
+    margin-right: 2px; 
+    vertical-align: middle; 
+    object-fit: contain;
+}
 
         .score-badge { font-size: 9px; border: 1px solid #38bdf8;; color: #38bdf8; padding: 2px 6px; border-radius: 4px; font-weight: 900; margin-left: auto; }
 
@@ -352,26 +359,26 @@ h1 {
     <script>
         
         const hunts = [
-            { n: "Arcane Wraith / Thunder Specter", tid: 55, e: "39.050", v: "50.000", min: 1500, ideal: 2000, over: 2750, sprites: ["Sprites/Arcane Wraith.gif", "Sprites/Thunder Specter.gif"], c: [{p:105,ea:100,f:100,d:75,en:75,h:100,i:100},{p:105,ea:105,f:100,d:85,en:80,h:105,i:105}]},
-            { n: "Armored Colossus / Cinder Warlord", tid: 56, e: "39.050", v: "50.000", min: 1500, ideal: 2000, over: 2750, sprites: ["Sprites/Armored Colossus.gif", "Sprites/Cinder Warlord.gif"], c: [{p:75,ea:105,f:105,d:105,en:105,h:105,i:105},{p:85,ea:110,f:80,d:100,en:110,h:110,i:100}]},
-            { n: "Forest Guardian / Rotting Watcher", tid: 57, e: "53.350", v: "60.000", min: 2000, ideal: 2500, over: 3250, sprites: ["Sprites/Forest Guardian.gif", "Sprites/Rotting Watcher.gif"], c: [{p:105,ea:75,f:110,d:100,en:100,h:100,i:100},{p:110,ea:75,f:110,d:105,en:105,h:95,i:105}]},
-            { n: "Holy Crusader / Blessed Sentinel", tid: 58, e: "53.350", v: "60.000", min: 2000, ideal: 2500, over: 3250, sprites: ["Sprites/Holy Crusader.gif", "Sprites/Blessed Sentinel.gif"], c: [{p:75,ea:105,f:105,d:105,en:105,h:65,i:105},{p:80,ea:110,f:105,d:100,en:110,h:60,i:100}]},
-            { n: "Iceborn Sentinel / Glacier Warden", tid: 60, e: "50.580", v: "65.000", min: 2500, ideal: 3000, over: 3750, sprites: ["Sprites/Iceborn Sentinel.gif", "Sprites/Glacier Warden.gif"], c: [{p:100,ea:105,f:110,d:95,en:85,h:105,i:75},{p:95,ea:110,f:105,d:95,en:90,h:105,i:75}]},
-            { n: "Ashclaw Demon / Flame Reaper", tid: 59, e: "49.600", v: "65.500", min: 2500, ideal: 3000, over: 3750, sprites: ["Sprites/Ashclaw Demon.gif", "Sprites/Flame Reaper.gif"], c: [{p:80,ea:100,f:60,d:105,en:110,h:105,i:115},{p:90,ea:100,f:65,d:110,en:105,h:110,i:110}]},
-            { n: "Pulsebound Entity / Voltshade Specter", tid: 61, e: "72.725", v: "75.000", min: 3000, ideal: 3500, over: 4250, sprites: ["Sprites/Pulsebound Entity.gif", "Sprites/Voltshade Specter.gif"], c: [{p:115,ea:110,f:110,d:105,en:75,h:105,i:100},{p:100,ea:105,f:110,d:100,en:75,h:110,i:95}]},
-            { n: "Gloomwraith / Whisper of Death", tid: 62, e: "75.820", v: "75.000", min: 3000, ideal: 3500, over: 4250, sprites: ["Sprites/Gloomwraith.gif", "Sprites/Whisper of Death.gif"], c: [{p:85,ea:100,f:110,d:90,en:110,h:115,i:90},{p:90,ea:105,f:110,d:90,en:115,h:110,i:85}]},
-            { n: "Sanctified Specter / Radiant Sentinel", tid: 63, e: "88.800", v: "85.000", min: 3500, ideal: 4000, over: 4750, sprites: ["Sprites/Sanctified Specter.gif", "Sprites/Radiant Sentinel.gif"], c: [{p:105,ea:110,f:100,d:110,en:100,h:80,i:105},{p:110,ea:105,f:105,d:105,en:100,h:90,i:100}]},
-            { n: "Deepcore Hydra / Obsidian Devourer", tid: 64, e: "99.800", v: "85.000", min: 3500, ideal: 4000, over: 4750, sprites: ["Sprites/Hydra.gif", "Sprites/Obsidian.gif"], c: [{p:90,ea:100,f:115,d:100,en:100,h:110,i:100},{p:95,ea:90,f:110,d:105,en:105,h:110,i:105}]},
-            { n: "Spectral Archivist / Forbidden Tome Wraith", tid: 65, e: "118.820", tn:"Forbidden Tome Wraith", v: "95.000", min: 4000, ideal: 4500, over: 5250, sprites: ["Sprites/Spectral Archivist.gif", "Sprites/Forbidden Tome Wraith.gif"], c: [{p:90,ea:100,f:110,d:110,en:105,h:90,i:90},{p:100,ea:85,f:115,d:110,en:110,h:90,i:85}]},
-            { n: "Scarab Sentinel / Scarapede", tid: 66, e: "108.400", v: "95.000", min: 4000, ideal: 4500, over: 5250, sprites: ["Sprites/Scarab Sentinel.gif", "Sprites/Scarapede.gif"], c: [{p:100,ea:95,f:110,d:105,en:100,h:100,i:95},{p:100,ea:95,f:110,d:105,en:100,h:100,i:95}]},
-            { n: "Burrowed Terror / Sand Devourer", tid: 67, e: "122.660", v: "110.000", min: 4500, ideal: 5000, over: 5750, sprites: ["Sprites/Burrowed Terror.gif", "Sprites/Sand Devourer.gif"], c: [{p:108,ea:95,f:75,d:85,en:100,h:110,i:105},{p:108,ea:95,f:75,d:85,en:100,h:110,i:105}]},
-            { n: "Ancient Berserker / Cursed High Priest / Tomb Guardian", tid: 68, e: "132.050", tn:"Tomb Guardian", v: "110.000", min: 4500, ideal: 5000, over: 5750, sprites: ["Sprites/Ancient Berserker.gif", "Sprites/Cursed High.gif", "Sprites/Tomb Guardian.gif"], c: [{p:95,ea:90,f:95,d:110,en:100,h:105,i:110},{p:100,ea:85,f:90,d:100,en:105,h:100,i:105},{p:105,ea:85,f:95,d:95,en:100,h:100,i:105}]},
-            { n: "Ancient Mummy / Holy Cryptkeeper", tid: 69, e: "155.600", v: "120.000", min: 5000, ideal: 5500, over: 6250, sprites: ["Sprites/Ancient Mummy.gif", "Sprites/Holy Cryptkeeper.gif"], c: [{p:90,ea:85,f:85,d:90,en:110,h:85,i:105},{p:85,ea:85,f:105,d:90,en:110,h:90,i:110}]},
-            { n: "Inferno Goo / Hellflame Spawn", tid: 70, e: "203.000", v: "145.000", min: 5500, ideal: 6000, over: 6750, sprites: ["Sprites/Inferno Goo.gif", "Sprites/Hellflame.gif"], c: [{p:105,ea:100,f:80,d:90,en:105,h:110,i:105},{p:100,ea:95,f:85,d:90,en:105,h:105,i:110}]},
-            { n: "Ancient Ice Dragon / Frost Empress", tid: 71, e: "230.000", v: "175.000", min: 6000, ideal: 6500, over: 7250, sprites: ["Sprites/Ancient Ice Dragon.gif", "Sprites/Frost Empress.gif"], c: [{p:105,ea:110,f:110,d:100,en:95,h:90,i:75},{p:100,ea:105,f:110,d:100,en:95,h:105,i:75}]},
-            { n: "Energy Harbinger / Storm Phantom", tid: 72, e: "312.000", v: "210.000", min: 6500, ideal: 7000, over: 7750, sprites: ["Sprites/Energy Harbinger.gif", "Sprites/Storm Phantom.gif"], c: [{p:105,ea:110,f:110,d:100,en:75,h:100,i:105},{p:95,ea:110,f:105,d:100,en:75,h:105,i:100}]},
-            { n: "Galactic Dragon / Astral Surge", tid: 73, e: "410.000", v: "240.000", min: 7000, ideal: 7500, over: 8250, sprites: ["Sprites/Galactic Dragon.gif", "Sprites/Astral.gif"], c: [{p:85,ea:120,f:90,d:105,en:85,h:105,i:85},{p:90,ea:115,f:90,d:105,en:85,h:105,i:95}]},
-            { n: "Mega Dragon / Dragolisk / Wardragon", tid: 74, e: "420.000", v: "290.000", min: 7500, ideal: 8000, over: 8750, sprites: ["Sprites/Mega Dragon.gif", "Sprites/Dragolisk.gif", "Sprites/Wardragon.gif"], c: [{p:100,ea:110,f:100,d:100,en:110,h:110,i:100},{p:85,ea:110,f:100,d:110,en:100,h:115,i:105},{p:100,ea:110,f:100,d:100,en:105,h:105,i:110}]}
+            { n: "Arcane Wraith / Thunder Specter", tid: 55, e: "39.050", v: "50.000", min: 1500, ideal: 2000, over: 2750, def: '<img src="Element/Energy.gif" class="def-icon"> Energy', sprites: ["Sprites/Arcane Wraith.gif", "Sprites/Thunder Specter.gif"], c: [{p:105,ea:100,f:100,d:75,en:75,h:100,i:100},{p:105,ea:105,f:100,d:85,en:80,h:105,i:105}]},
+            { n: "Armored Colossus / Cinder Warlord", tid: 56, e: "39.050", v: "50.000", min: 1500, ideal: 2000, over: 2750, def: '<img src="Element/Fire.gif" class="def-icon"> Fire', sprites: ["Sprites/Armored Colossus.gif", "Sprites/Cinder Warlord.gif"], c: [{p:75,ea:105,f:105,d:105,en:105,h:105,i:105},{p:85,ea:110,f:80,d:100,en:110,h:110,i:100}]},
+            { n: "Forest Guardian / Rotting Watcher", tid: 57, e: "53.350", v: "60.000", min: 2000, ideal: 2500, over: 3250, def: '<img src="Element/Earth.gif" class="def-icon"> Earth', sprites: ["Sprites/Forest Guardian.gif", "Sprites/Rotting Watcher.gif"], c: [{p:105,ea:75,f:110,d:100,en:100,h:100,i:100},{p:110,ea:75,f:110,d:105,en:105,h:95,i:105}]},
+            { n: "Holy Crusader / Blessed Sentinel", tid: 58, e: "53.350", v: "60.000", min: 2000, ideal: 2500, over: 3250, def: '<img src="Element/Holy.gif" class="def-icon"> Holy', sprites: ["Sprites/Holy Crusader.gif", "Sprites/Blessed Sentinel.gif"], c: [{p:75,ea:105,f:105,d:105,en:105,h:65,i:105},{p:80,ea:110,f:105,d:100,en:110,h:60,i:100}]},
+            { n: "Iceborn Sentinel / Glacier Warden", tid: 60, e: "50.580", v: "65.000", min: 2500, ideal: 3000, over: 3750, def: '<img src="Element/Ice.gif" class="def-icon"> Ice', sprites: ["Sprites/Iceborn Sentinel.gif", "Sprites/Glacier Warden.gif"], c: [{p:100,ea:105,f:110,d:95,en:85,h:105,i:75},{p:95,ea:110,f:105,d:95,en:90,h:105,i:75}]},
+            { n: "Ashclaw Demon / Flame Reaper", tid: 59, e: "49.600", v: "65.500", min: 2500, ideal: 3000, over: 3750, def: '<img src="Element/Fire.gif" class="def-icon"> Fire', sprites: ["Sprites/Ashclaw Demon.gif", "Sprites/Flame Reaper.gif"], c: [{p:80,ea:100,f:60,d:105,en:110,h:105,i:115},{p:90,ea:100,f:65,d:110,en:105,h:110,i:110}]},
+            { n: "Pulsebound Entity / Voltshade Specter", tid: 61, e: "72.725", v: "75.000", min: 3000, ideal: 3500, over: 4250, def: '<img src="Element/Energy.gif" class="def-icon"> Energy', sprites: ["Sprites/Pulsebound Entity.gif", "Sprites/Voltshade Specter.gif"], c: [{p:115,ea:110,f:110,d:105,en:75,h:105,i:100},{p:100,ea:105,f:110,d:100,en:75,h:110,i:95}]},
+            { n: "Gloomwraith / Whisper of Death", tid: 62, e: "75.820", v: "75.000", min: 3000, ideal: 3500, over: 4250, def: '<img src="Element/Death.gif" class="def-icon"> Death', sprites: ["Sprites/Gloomwraith.gif", "Sprites/Whisper of Death.gif"], c: [{p:85,ea:100,f:110,d:90,en:110,h:115,i:90},{p:90,ea:105,f:110,d:90,en:115,h:110,i:85}]},
+            { n: "Sanctified Specter / Radiant Sentinel", tid: 63, e: "88.800", v: "85.000", min: 3500, ideal: 4000, over: 4750, def: '<img src="Element/Holy.gif" class="def-icon"> Holy', sprites: ["Sprites/Sanctified Specter.gif", "Sprites/Radiant Sentinel.gif"], c: [{p:105,ea:110,f:100,d:110,en:100,h:80,i:105},{p:110,ea:105,f:105,d:105,en:100,h:90,i:100}]},
+            { n: "Deepcore Hydra / Obsidian Devourer", tid: 64, e: "99.800", v: "85.000", min: 3500, ideal: 4000, over: 4750, def: '<img src="Element/Earth.gif" class="def-icon"> Earth', sprites: ["Sprites/Hydra.gif", "Sprites/Obsidian.gif"], c: [{p:90,ea:100,f:115,d:100,en:100,h:110,i:100},{p:95,ea:90,f:110,d:105,en:105,h:110,i:105}]},
+            { n: "Spectral Archivist / Forbidden Tome Wraith", tid: 65, e: "118.820", tn:"Forbidden Tome Wraith", v: "95.000", min: 4000, ideal: 4500, over: 5250, def: '<img src="Element/Death.gif" class="def-icon"> Death / Life Drain', sprites: ["Sprites/Spectral Archivist.gif", "Sprites/Forbidden Tome Wraith.gif"], c: [{p:90,ea:100,f:110,d:110,en:105,h:90,i:90},{p:100,ea:85,f:115,d:110,en:110,h:90,i:85}]},
+            { n: "Scarab Sentinel / Scarapede", tid: 66, e: "108.400", v: "95.000", min: 4000, ideal: 4500, over: 5250, def: '<img src="Element/Earth.gif" class="def-icon"> Earth', sprites: ["Sprites/Scarab Sentinel.gif", "Sprites/Scarapede.gif"], c: [{p:100,ea:95,f:110,d:105,en:100,h:100,i:95},{p:100,ea:95,f:110,d:105,en:100,h:100,i:95}]},
+            { n: "Burrowed Terror / Sand Devourer", tid: 67, e: "122.660", v: "110.000", min: 4500, ideal: 5000, over: 5750, def: '<img src="Element/Fire.gif" class="def-icon"> Fire / Life Drain', sprites: ["Sprites/Burrowed Terror.gif", "Sprites/Sand Devourer.gif"], c: [{p:108,ea:95,f:75,d:85,en:100,h:110,i:105},{p:108,ea:95,f:75,d:85,en:100,h:110,i:105}]},
+            { n: "Ancient Berserker / Cursed High Priest / Tomb Guardian", tid: 68, e: "132.050", tn:"Tomb Guardian", v: "110.000", min: 4500, ideal: 5000, over: 5750, def: '<img src="Element/Earth.gif" class="def-icon"> Earth', sprites: ["Sprites/Ancient Berserker.gif", "Sprites/Cursed High.gif", "Sprites/Tomb Guardian.gif"], c: [{p:95,ea:90,f:95,d:110,en:100,h:105,i:110},{p:100,ea:85,f:90,d:100,en:105,h:100,i:105},{p:105,ea:85,f:95,d:95,en:100,h:100,i:105}]},
+            { n: "Ancient Mummy / Holy Cryptkeeper", tid: 69, e: "155.600", v: "120.000", min: 5000, ideal: 5500, over: 6250, def: '<img src="Element/Death.gif" class="def-icon"> Death', sprites: ["Sprites/Ancient Mummy.gif", "Sprites/Holy Cryptkeeper.gif"], c: [{p:90,ea:85,f:85,d:90,en:110,h:85,i:105},{p:85,ea:85,f:105,d:90,en:110,h:90,i:110}]},
+            { n: "Inferno Goo / Hellflame Spawn", tid: 70, e: "203.000", v: "145.000", min: 5500, ideal: 6000, over: 6750, def: '<img src="Element/Fire.gif" class="def-icon"> Fire', sprites: ["Sprites/Inferno Goo.gif", "Sprites/Hellflame.gif"], c: [{p:105,ea:100,f:80,d:90,en:105,h:110,i:105},{p:100,ea:95,f:85,d:90,en:105,h:105,i:110}]},
+            { n: "Ancient Ice Dragon / Frost Empress", tid: 71, e: "230.000", v: "175.000", min: 6000, ideal: 6500, over: 7250, def: '<img src="Element/Holy.gif" class="def-icon"> Holy', sprites: ["Sprites/Ancient Ice Dragon.gif", "Sprites/Frost Empress.gif"], c: [{p:105,ea:110,f:110,d:100,en:95,h:90,i:75},{p:100,ea:105,f:110,d:100,en:95,h:105,i:75}]},
+            { n: "Energy Harbinger / Storm Phantom", tid: 72, e: "312.000", v: "210.000", min: 6500, ideal: 7000, over: 7750, def: '<img src="Element/Energy.gif" class="def-icon"> Energy', sprites: ["Sprites/Energy Harbinger.gif", "Sprites/Storm Phantom.gif"], c: [{p:105,ea:110,f:110,d:100,en:75,h:100,i:105},{p:95,ea:110,f:105,d:100,en:75,h:105,i:100}]},
+            { n: "Galactic Dragon / Astral Surge", tid: 73, e: "410.000", v: "240.000", min: 7000, ideal: 7500, over: 8250, def: '<img src="Element/Fire.gif" class="def-icon"> Fire', sprites: ["Sprites/Galactic Dragon.gif", "Sprites/Astral.gif"], c: [{p:85,ea:120,f:90,d:105,en:85,h:105,i:85},{p:90,ea:115,f:90,d:105,en:85,h:105,i:95}]},
+            { n: "Mega Dragon / Dragolisk / Wardragon", tid: 74, e: "420.000", v: "290.000", min: 7500, ideal: 8000, over: 8750, def: '<img src="Element/Fire.gif" class="def-icon"> Fire', sprites: ["Sprites/Mega Dragon.gif", "Sprites/Dragolisk.gif", "Sprites/Wardragon.gif"], c: [{p:100,ea:110,f:100,d:100,en:110,h:110,i:100},{p:85,ea:110,f:100,d:110,en:100,h:115,i:105},{p:100,ea:110,f:100,d:100,en:105,h:105,i:110}]}
         ];
 
         
@@ -483,7 +490,12 @@ sorted.forEach(([el, val]) => {
                             </div>
                         </div>
                     </div>
-
+					<div class="info-box mini" style="width: 100%; box-sizing: border-box; display: flex; align-items: center; gap: 8px; min-height: auto; flex-direction: row; justify-content: center;">
+    <span class="label-sm" style="color: #ffb969; font-weight: 800; letter-spacing: 0.03em; margin-bottom: 0; white-space: nowrap;">DEFESA ELEMENTAL:</span>
+    <span style="font-size: 11px; font-weight: 700; color: #fff; line-height: 1;">
+        ${h.def || 'Não definida'}
+    </span>
+</div>
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
 			<div class="info-box mini exp-container">
 				<span class="label-sm" style="color:#c9b424; font-weight:800; display: flex; align-items: center; gap: 5px; letter-spacing: 0.03em;">
